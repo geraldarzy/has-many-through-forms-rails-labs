@@ -1,0 +1,10 @@
+<h1>Category: <%=@category.name%></h1>
+Here are the posts that are related to this category: <br>
+
+<ul>
+    <%@category.posts.each do |p|%>
+        <li>
+            <%=link_to p.title, post_path(p)%>
+        </li>
+    <%end%>
+</ul>
