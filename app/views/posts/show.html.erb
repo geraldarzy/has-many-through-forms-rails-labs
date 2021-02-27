@@ -1,1 +1,40 @@
+<%=@post.title%>
+<br>
+<%=@post.content%>
+<ul>
+    <%@post.categories.each do |c|%>
+        <li>
+            <%=c.name%>
+        </li>
+    <%end%>
+</ul>
 
+<ul>
+
+    <%@post.comments.each do |com|%>
+        <li>
+            <%=link_to com.user.username, user_path(com.user)%> says: <%=com.content%>
+        </li>
+    <%end%>
+</ul>
+
+<%=form_for @post.comments.build do |f|%>
+    <%#params{
+        comment{
+            {content: 'hello this is my comment'},
+            {user_id: 1},
+            {post_id:@post.id}
+        }
+    }%>
+    <%=f.hidden_field :post_id%>
+    <%#Post has many comments so you access that specific post's list of comments and you .build to get an instance to work on %>
+    <%=f.text_field :content%>
+    <%=f.collection_select :user_id, User.all, :id, :username%> <br>
+
+    <%=f.fields_for :user, User.new do |user_field|%>
+        <%=user_field.label :username%>
+        <%=user_field.text_field :username%><br>
+    <%end%>
+
+    <%=f.submit%>
+<%end%>
